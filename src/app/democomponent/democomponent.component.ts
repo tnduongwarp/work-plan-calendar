@@ -1,14 +1,10 @@
 import {
   Component,
-  ChangeDetectionStrategy,
   ViewChild,
   TemplateRef,
 } from '@angular/core';
 import {
   startOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
   addHours,
 } from 'date-fns';
 import { Subject } from 'rxjs';
@@ -42,7 +38,7 @@ export class DemocomponentComponent {
   @ViewChild('modalContent', { static: true })
   modalContent!: TemplateRef<any>;
 
-  view: CalendarView = CalendarView.Month;
+  view: CalendarView = CalendarView.Week;
 
   CalendarView = CalendarView;
 
@@ -59,43 +55,65 @@ export class DemocomponentComponent {
 
   events: CalendarEvent[] = [
     {
-      start: new Date(2023, 5, 27, 15, 0),
-      end: new Date(2023, 5, 28),
+      start: new Date(2023, 6, 6, 15, 0),
+      end: new Date(2023, 6, 7),
       title: 'A 3 day event',
       color: { ...colors['red'] },
-      allDay: false,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: false,
-    },
-    {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      color: { ...colors['yellow'] },
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      color: { ...colors['blue'] },
       allDay: true,
+
+    },
+    {
+      start: new Date(2023, 6, 7, 15, 0),
+      end: new Date(2023, 6, 8),
+      title: 'test event',
+      color: { ...colors['red'] },
+      allDay: true,
+
+    },
+    {
+      start: new Date(2023, 6, 7, 15, 0),
+      end: new Date(2023, 6, 8),
+      title: 'test event',
+      color: { ...colors['red'] },
+      allDay: true,
+
+    },
+    {
+      start: new Date(2023, 6, 7, 15, 0),
+      end: new Date(2023, 6, 8),
+      title: 'test event',
+      color: { ...colors['red'] },
+      allDay: true,
+
+    },
+    {
+      start: new Date(2023, 6, 7, 15, 0),
+      end: new Date(2023, 6, 8),
+      title: 'test event',
+      color: { ...colors['red'] },
+      allDay: true,
+
+    },
+    {
+      start: new Date(2023, 6, 5, 15, 0),
+      end: new Date(2023, 6, 8),
+      title: 'test 2 event',
+      color: { ...colors['red'] },
+      allDay: true,
+
     },
     {
       start: addHours(startOfDay(new Date()), 2),
       end: addHours(new Date(), 2),
       title: 'A draggable and resizable event',
       color: { ...colors['yellow'] },
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: false,
+      allDay: true,
+
     },
   ];
 
   activeDayIsOpen: boolean = true;
+cellModifier: any;
 
   constructor(private modal: NgbModal) {}
 

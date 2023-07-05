@@ -1,2 +1,17 @@
-
-<router-outlet></router-outlet>
+<div class="calendar">
+  <div class="header">
+    <button (click)="prevWeek()">&lt;</button>
+    <h2>{{ currentDate | date : "MMM dd, yyyy" }}</h2>
+    <button (click)="nextWeek()">&gt;</button>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th class="weekday" *ngFor="let day of daysOfWeek">{{ day }}</th>
+      </tr>
+      <tr>
+        <th class="day" *ngFor="let day of weekDays">{{ day | date : "d" }}</th>
+      </tr>
+    </thead>
+  </table>
+</div>
