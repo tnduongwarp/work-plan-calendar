@@ -4,21 +4,35 @@
     <h2>{{ currentDate | date : "MMM dd, yyyy" }}</h2>
     <button (click)="nextWeek()">&gt;</button>
   </div>
-  <table>
-    <thead>
-      <tr>
-        <th class="firstrow" *ngFor="let day of daysOfWeek">{{ day }}</th>
-      </tr>
-      <tr>
-        <th class="lastrow" *ngFor="let day of weekDays">{{ day | date : "d" }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <div *ngFor="let event of events" style="display: flex;">
-      <div id="{{event.title}}" *ngIf="checkEvent(event)" style="height: 50px; width: 100px; background-color: aqua; ">{{event.title}}</div>
-        </div>
-      </tr>
-    </tbody>
-  </table>
+  <div class="days">
+    <div class="day" *ngFor="let day of daysOfWeek">{{ day }}</div>
+  </div>
+  <div class="content">
+    <div class="date" *ngFor="let day of weekDays">{{ day | date : "d" }}</div>
+  </div>
+
+  <div style="display: flex; position: relative; width: 100%">
+    <div
+      *ngFor="let event of events"
+      id="{{ event.title }}"
+      style="
+        height: 50px;
+        text-align: center;
+        position: absolute;
+        margin-top: 5px;
+      "
+    >
+      <div
+        *ngIf="checkEvent(event)"
+        style="
+          width: 100%;
+          height: 100%;
+          text-align: center;
+          background-color: aqua;
+        "
+      >
+        {{ event.title }}
+      </div>
+    </div>
+  </div>
 </div>
