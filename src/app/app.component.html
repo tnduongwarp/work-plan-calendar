@@ -7,11 +7,18 @@
   <table>
     <thead>
       <tr>
-        <th class="weekday" *ngFor="let day of daysOfWeek">{{ day }}</th>
+        <th class="firstrow" *ngFor="let day of daysOfWeek">{{ day }}</th>
       </tr>
       <tr>
-        <th class="day" *ngFor="let day of weekDays">{{ day | date : "d" }}</th>
+        <th class="lastrow" *ngFor="let day of weekDays">{{ day | date : "d" }}</th>
       </tr>
     </thead>
+    <tbody>
+      <tr>
+        <div *ngFor="let event of events" style="display: flex;">
+      <div id="{{event.title}}" *ngIf="checkEvent(event)" style="height: 50px; width: 100px; background-color: aqua; ">{{event.title}}</div>
+        </div>
+      </tr>
+    </tbody>
   </table>
 </div>
