@@ -10,42 +10,95 @@ export class AppComponent implements AfterViewChecked{
   currentDate: Date;
   daysOfWeek: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   weekDays: Date[] = [];
+  timenow :  Date ;
   events: any = [
     {
-      start : new Date(2023, 6, 2, 1, 0),
-      end : new Date(2023,6,4,8,30),
-      title : "third event"
+      id : 1,
+      data: [
+        {
+          start : new Date(2023, 6, 2, 1, 0),
+          end : new Date(2023,6,4,8,30),
+          title : "third event"
 
+        },
+        {
+          start : new Date(2023, 6, 14, 15, 0),
+          end : new Date(2023,6,15,8,30),
+          title : "second event"
+
+        },
+        {
+          start : new Date(2023, 6, 6, 15, 0),
+          end : new Date(2023,6,8,24,0),
+          title : "first event"
+
+        },
+      ]
     },
     {
-      start : new Date(2023, 6, 14, 15, 0),
-      end : new Date(2023,6,15,8,30),
-      title : "second event"
+      id: 2,
+      data:[
+        {
+          start : new Date(2023, 6, 4, 1, 0),
+          end : new Date(2023,6,6,8,30),
+          title : "four event"
 
-    },
-    {
-      start : new Date(2023, 6, 6, 15, 0),
-      end : new Date(2023,6,8,8,30),
-      title : "first event"
+        },
+        {
+          start : new Date(2023, 6, 13, 15, 0),
+          end : new Date(2023,6,15,8,30),
+          title : "five event"
 
-    },
+        },
+        {
+          start : new Date(2023, 6, 7, 15, 0),
+          end : new Date(2023,6,8,8,30),
+          title : "six event"
+
+        },
+        {
+          start : new Date(2023, 6, 2, 15, 0),
+          end : new Date(2023,6,3,23,30),
+          title : "seven event"
+
+        },
+      ]
+    }
   ]
 
+
   constructor() {
+    this.timenow = new Date();
     this.currentDate = new Date();
     this.populateWeekDays();
-    this.countLengthofEvent(this.events[0]);
 
   }
 
   ngAfterViewChecked(){
+    if(this.checkTimeNowDisplay(this.timenow)){
+      var now = document.getElementById("now");
+      const marginTimeNow = (this.timenow.getTime()- this.weekDays[0].getTime() + this.timenow.getHours()*3600000+ this.timenow.getMinutes()*60000+ this.timenow.getSeconds()*1000)/(3600000)*5.95;
+      now!.style.marginLeft = marginTimeNow + 'px';
+    }
 
     for(let i = 0; i< this.events.length; i++){
-      if(this.checkEvent(this.events[i])){
-        var event = document.getElementById(this.events[i].title);
-        event!.style.marginLeft = this.caculateMaginLeft(this.events[i]) +'px';
-        event!.style.width = this.countLengthofEvent(this.events[i]) + 'px';
+      document.getElementById(this.events[i].id)!.style.top = (55*i) + 'px'
+      for(let j=0;j<this.events[i].data.length;j++){
+        var event = document.getElementById(this.events[i].data[j].title);
+        if(this.checkEvent(this.events[i].data[j])){
+          event!.style.display = "inline"
+          event!.style.marginLeft = this.caculateLeft(this.events[i].data[j]) +'px';
+          event!.style.width = this.countLengthofEvent(this.events[i].data[j]) + 'px';
+          if(this.events[i].data[j].start.getTime() <= this.timenow.getTime() && this.events[i].data[j].end.getTime()>=this.timenow.getTime()){
+            event!.style.backgroundColor = 'aqua';
+          }else
+          event!.style.backgroundColor = 'crimson';
+        }
+        else{
+          event!.style.display = "none"
+        }
       }
+
 
     }
   }
@@ -86,15 +139,39 @@ export class AppComponent implements AfterViewChecked{
     else return false;
   }
 
-  caculateMaginLeft(event: any): Number{
+  checkTimeNowDisplay(timenow: any): boolean{
+    if(this.weekDays.some( day => (day.getDate() == timenow.getDate() && day.getMonth()==timenow.getMonth() && day.getFullYear()== timenow.getFullYear())))
+    return true;
+    else return false;
+  }
+
+  caculateLeft(event: any){
     const thu = event.start.getDay();
     const hours = event.start.getHours();
     const mn = event.start.getMinutes();
-     return (thu*24+(hours+mn/60))*6;
+     return (thu*24+(hours+mn/60))*5.95;
+  }
+  caculateMarginLeft(event: any, events: any) {
+    let maxLeft : number= 0;
+    let eventnearitst : number = -1;
+    const left = this.caculateLeft(event);
+    for(let i = 0;i < events.length; i++){
+      const lefti = this.caculateLeft(events[i]);
+      if(this.checkEvent(events[i]) &&  lefti > maxLeft && lefti < left){
+        maxLeft = lefti;
+        eventnearitst = i;
+      }
+    }
+    if(eventnearitst != -1){
+      return left - maxLeft - this.countLengthofEvent(events[eventnearitst])
+    }
+    else {
+      return this.caculateLeft(event);
+    }
   }
   countLengthofEvent(event: any){
     const mn= event.end.getTime() - event.start.getTime();
-    return mn/(3600000)*6;
+    return mn/(3600000)*5.95;
   }
 
 }
