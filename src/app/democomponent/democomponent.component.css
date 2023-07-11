@@ -1,15 +1,80 @@
-h3 {
-  margin: 0 0 10px;
+.calendar {
+  width: 1000px;
+  font-family: Arial, sans-serif;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-pre {
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px;
   background-color: #f5f5f5;
-  padding: 15px;
 }
-.cal-week-view .cal-all-day-events .cal-event {
-  padding: 0 5px;
-  margin-left: 2px;
-  margin-right: 2px;
-  height: 50px !important;
-  line-height: 60px !important;
+
+.days {
+  display: flex;
+  background-color: #eaeaeafd;
+}
+
+.day {
+  flex: 1;
+  text-align: center;
+  font-weight: bold;
+  border-left: 1px solid #ccc;
+  padding-top: 10px;
+  border-top: 1px solid #ccc;
+}
+
+.days .day:last-child {
+  border-right: 1px solid #ccc;
+}
+
+.content .date:last-child {
+  border-right: 1px solid #ccc;
+}
+
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #eaeaea;
+}
+
+.date {
+  flex: 1;
+  text-align: center;
+  border-left: 1px solid #ccc;
+  padding-bottom: 10px;
+  padding-top: 2px;
+  border-bottom: 1px solid #ccc;
+}
+
+button {
+  margin-left: 5px;
+  border: none;
+  background-color: #f5f5f5;
+}
+
+h4 {
+  font-weight: 600;
+  color: rgb(11, 18, 110);
+}
+
+.now {
+  margin-top: 6px;
+  width: 3px; /* Độ dài của đường thẳng */
+  height: 100%; /* Độ dày của đường thẳng */
+  background-color: rgb(238, 97, 97); /* Màu sắc của đường thẳng */
+}
+
+.now::before {
+  content: "";
+  position: absolute;
+  top: -5px; /* Vị trí đặt chấm tròn */
+  left: -3px;
+  width: 10px; /* Độ kích thước của chấm tròn */
+  height: 10px;
+  background-color: rgb(184, 22, 22); /* Màu sắc của chấm tròn */
+  border-radius: 50%; /* Làm tròn chấm tròn */
 }

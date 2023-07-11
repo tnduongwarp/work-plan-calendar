@@ -63,6 +63,35 @@ export class AppComponent implements AfterViewChecked{
 
         },
       ]
+    },
+    {
+      id: 3,
+      data:[
+        {
+          start : new Date(2023, 6, 4, 1, 0),
+          end : new Date(2023,6,6,8,30),
+          title : "eight event"
+
+        },
+        {
+          start : new Date(2023, 6, 13, 15, 0),
+          end : new Date(2023,6,15,8,30),
+          title : "nine event"
+
+        },
+        {
+          start : new Date(2023, 6, 7, 15, 0),
+          end : new Date(2023,6,8,8,30),
+          title : "ten event"
+
+        },
+        {
+          start : new Date(2023, 6, 2, 15, 0),
+          end : new Date(2023,6,3,23,30),
+          title : "elevent event"
+
+        },
+      ]
     }
   ]
 
@@ -89,10 +118,17 @@ export class AppComponent implements AfterViewChecked{
           event!.style.display = "inline"
           event!.style.marginLeft = this.caculateLeft(this.events[i].data[j]) +'px';
           event!.style.width = this.countLengthofEvent(this.events[i].data[j]) + 'px';
-          if(this.events[i].data[j].start.getTime() <= this.timenow.getTime() && this.events[i].data[j].end.getTime()>=this.timenow.getTime()){
-            event!.style.backgroundColor = 'aqua';
-          }else
-          event!.style.backgroundColor = 'crimson';
+          if(this.events[i].data[j].end.getTime()<this.timenow.getTime()){
+            event!.style.backgroundColor = '#aedf98';
+            event!.style.border = '1px solid rgb(73, 219, 9)';
+          }else if(this.events[i].data[j].start.getTime() <= this.timenow.getTime() && this.events[i].data[j].end.getTime()>=this.timenow.getTime()){
+            event!.style.backgroundColor = '#7ac7eb';
+            event!.style.border = '1px solid #1f8abb';
+          }else{
+            event!.style.backgroundColor = '#f5f5f5';
+            event!.style.border = '1px solid rgb(125, 119, 119)';
+          }
+
         }
         else{
           event!.style.display = "none"
