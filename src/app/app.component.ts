@@ -1,4 +1,5 @@
 import { AfterViewChecked, AfterViewInit, Component } from '@angular/core';
+import { th } from 'date-fns/locale';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,9 @@ export class AppComponent implements AfterViewChecked{
   daysOfWeek: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   weekDays: Date[] = [];
   timenow :  Date ;
+  output: any = [];
+  startTime = new Date(2023, 6, 1);
+  endTime = new Date(2023,6,15);
   events: any = [
     {
       id : 1,
@@ -65,12 +69,86 @@ export class AppComponent implements AfterViewChecked{
       ]
     }
   ]
+ eventTest: any = [
 
+
+        {
+          start : new Date(2023, 6, 2, 1, 0),
+          end : new Date(2023,6,4,8,30),
+          title : "third event"
+
+        },
+        {
+          start : new Date(2023, 6, 14, 15, 0),
+          end : new Date(2023,6,15,8,30),
+          title : "second event"
+
+        },
+        {
+          start : new Date(2023, 6, 6, 15, 0),
+          end : new Date(2023,6,8,24,0),
+          title : "first event"
+
+        },
+
+
+        {
+          start : new Date(2023, 6, 4, 1, 0),
+          end : new Date(2023,6,6,8,30),
+          title : "four event"
+
+        },
+        {
+          start : new Date(2023, 6, 13, 15, 0),
+          end : new Date(2023,6,15,8,30),
+          title : "five event"
+
+        },
+        {
+          start : new Date(2023, 6, 7, 15, 0),
+          end : new Date(2023,6,8,8,30),
+          title : "six event"
+
+        },
+        {
+          start : new Date(2023, 6, 2, 15, 0),
+          end : new Date(2023,6,3,23,30),
+          title : "seven event"
+
+        },
+
+        {
+          start : new Date(2023, 6, 4, 1, 0),
+          end : new Date(2023,6,6,8,30),
+          title : "eight event"
+
+        },
+        {
+          start : new Date(2023, 6, 13, 15, 0),
+          end : new Date(2023,6,15,8,30),
+          title : "nine event"
+
+        },
+        {
+          start : new Date(2023, 6, 7, 15, 0),
+          end : new Date(2023,6,8,8,30),
+          title : "ten event"
+
+        },
+        {
+          start : new Date(2023, 6, 2, 15, 0),
+          end : new Date(2023,6,3,23,30),
+          title : "elevent event"
+
+        },
+
+  ]
 
   constructor() {
     this.timenow = new Date();
     this.currentDate = new Date();
     this.populateWeekDays();
+    this.testSort();
 
   }
 
@@ -82,7 +160,7 @@ export class AppComponent implements AfterViewChecked{
     }
 
     for(let i = 0; i< this.events.length; i++){
-      document.getElementById(this.events[i].id)!.style.top = (55*i) + 'px'
+      document.getElementById(this.events[i].id)!.style.top = (70*i) + 'px'
       for(let j=0;j<this.events[i].data.length;j++){
         var event = document.getElementById(this.events[i].data[j].title);
         if(this.checkEvent(this.events[i].data[j])){
@@ -173,5 +251,48 @@ export class AppComponent implements AfterViewChecked{
     const mn= event.end.getTime() - event.start.getTime();
     return mn/(3600000)*5.95;
   }
+  testSort(){
+    this.eventTest.sort(function(event1: any, event2: any){
+      if(event1.start.getTime() < event2.start.getTime()) return -1;
+      else if(event1.start.getTime() > event2.start.getTime()) return 1;
+      else return 0;
+    });
+    console.log(this.eventTest);
+    let tmp = [];
+    let index = 0;
+    for(let i = 0; i < this.eventTest.length; i++){
+      if(this.eventTest[i].start.getTime()> this.startTime.getTime()){
+        tmp.push(this.eventTest[i]);
+        index = i+1;
+        break;
+      }
+    }
+    this.output.push(tmp);
+    for(let i = index; i<this.eventTest.length; i++){
+      let pushed = 0;
+      for(let j=0;j<this.output.length; j++){
+        if(
+          this.eventTest[i].start.getTime() > this.output[j][this.output[j].length - 1].end.getTime()
+          && this.eventTest[i].start.getTime() < this.endTime.getTime()
+          ){
+            this.output[j].push(this.eventTest[i]);
+            pushed = 1;
+            break;
+          }
+      }
+      if(!pushed){
+        var tmp1 = [];
+        tmp1.push(this.eventTest[i]);
+        this.output.push(tmp1);
+
+      }
+    }
+    for (let i = this.output.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [this.output[i], this.output[j]] = [this.output[j], this.output[i]];
+  }
+    console.log(this.output);
+  }
+
 
 }
